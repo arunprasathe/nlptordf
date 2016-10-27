@@ -1,0 +1,40 @@
+package org.nlp2rdf.core.vocab;
+
+import com.hp.hpl.jena.ontology.DatatypeProperty;
+import com.hp.hpl.jena.ontology.OntModel;
+
+/**
+ * This class was automatically generated from $ontology
+ * @author croeder
+ *
+*/
+
+public enum $className {
+#foreach( $dp in $datatypeProperties )
+
+    /**
+     * $dp.label -> $dp.comment
+     */
+    $dp.name#if( $foreach.hasNext ),
+#end
+#end;
+
+    String uri;
+
+    $className() {
+        this.uri = "$preferredNamespaceUri" + name();
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    @Override
+    public String toString() {
+        return "$preferredNamespacePrefix:" + name();
+    }
+
+    public DatatypeProperty getDatatypeProperty(OntModel model) {
+        return model.createDatatypeProperty(getUri());
+    }
+}

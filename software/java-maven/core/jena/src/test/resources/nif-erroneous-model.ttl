@@ -1,0 +1,115 @@
+##############################################################################
+#  Copyright (C) 2010-2011, Sebastian Hellmann                               #
+#                                                                            #
+#  Licensed under the Apache License, Version 2.0 (the "License");           #
+#  you may not use this file except in compliance with the License.          #
+#  You may obtain a copy of the License at                                   #
+#                                                                            #
+#      http://www.apache.org/licenses/LICENSE-2.0                            #
+#                                                                            #
+#  Unless required by applicable law or agreed to in writing, software       #
+#  distributed under the License is distributed on an "AS IS" BASIS,         #
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  #
+#  See the License for the specific language governing permissions and       #
+#  limitations under the License.                                            #
+##############################################################################
+
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix itsrdf: <http://www.w3.org/2005/11/its/rdf#> .
+@prefix nif: <http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://example.com/correct.html#char=0,27>
+	a nif:Context ;
+	a nif:RFC5147String ;
+	nif:beginIndex "0"^^xsd:nonNegativeInteger ;
+	nif:endIndex "27"^^xsd:nonNegativeInteger ;
+	nif:isString "transport or transportation" .
+
+# t1, old vocab
+<http://example.com/warn1.html#char=0,27>
+	a <http://nlp2rdf.lod2.eu/schema/string/String> .
+
+# t2, missing RFC5147
+<http://example.com/error2.html#char=0,27>
+	a nif:Context ;
+	nif:isString "transport or transportation" .
+
+# t3 beginIndex must be zero, missing ^^xsd:nonNegativeInteger
+<http://example.com/error3.html#char=1,25>
+	a nif:Context ;
+	a nif:RFC5147String ;
+	nif:beginIndex "1" ;
+	nif:endIndex "27" ;
+	nif:isString "transport or transportation" .
+
+# t4
+<http://example.com/error4.html#char=1,25>
+	a nif:Context ;
+	a nif:RFC5147String ;
+	nif:beginIndex "0" ;
+	nif:endIndex "25" ;
+	nif:isString "transport or transportation" .
+
+#t5 wrong substring
+#    TODO not working
+<http://example.com/error5.html#char=0,10>
+	a nif:RFC5147String ;
+	nif:beginIndex "0" ;
+	nif:endIndex "10" ;
+	nif:anchorOf "wrong substring" ;
+	nif:referenceContext <http://example.com/correct.html#char=0,27> .
+
+#t6  misspelled
+<http://example.com/error6.html#char=0,27>
+	a nif:Context ;
+	a nif:RFC147String ;
+	nif:beginIndex "0" ;
+	nif:endIndex "27" ;
+	nif:isString "transport or transportation" .
+
+# t7
+<http://example.com/error7.html#char=10,12>
+	a nif:RFC5147String ;
+	nif:beginIndex "10" ;
+	nif:endIndex "12" .
+
+# t8
+<http://example.com/error8and9.html#char=9,13>
+	a nif:RFC5147String ;
+	nif:anchorOf " or " ;
+	nif:referenceContext  <http://example.com/correct.html#char=0,27>  .
+
+#t10
+<http://example.com/error10.html#char=0,19>
+   	a nif:Context ;
+   	nif:beginIndex "0" ;
+   	nif:endIndex "19" ;
+   	nif:isString "Some other context." .
+
+# t11
+<http://example.com/error11.html#char=0,19>
+	a nif:RFC5147String ;
+	nif:beginIndex "0" ;
+   	nif:endIndex "-4" ;
+   	nif:isString "Some other context." ;
+   	nif:referenceContext  <http://example.com/error10.html#char=0,19> .
+
+
+# t12
+<http://example.com/error12.html#char=0,19>
+	a nif:CString ;
+	nif:beginIndex "0" ;
+   	nif:endIndex "19" ;
+   	nif:isString "Some other context." ;
+   	nif:referenceContext  <http://example.com/error10.html#char=0,19> .
+
+
+<http://example.com/korean.html#char=0,$LENGTH>
+    a nif:Context ;
+    a nif:RFC5147String ;
+    nif:beginIndex "0" ;
+    nif:endIndex "$LENGTH" ;
+    nif:isString "$STRING" .
+

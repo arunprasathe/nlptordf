@@ -1,0 +1,51 @@
+##############################################################################
+#  Copyright (C) 2010-2011, Sebastian Hellmann                               #
+#                                                                            #
+#  Licensed under the Apache License, Version 2.0 (the "License");           #
+#  you may not use this file except in compliance with the License.          #
+#  You may obtain a copy of the License at                                   #
+#                                                                            #
+#      http://www.apache.org/licenses/LICENSE-2.0                            #
+#                                                                            #
+#  Unless required by applicable law or agreed to in writing, software       #
+#  distributed under the License is distributed on an "AS IS" BASIS,         #
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  #
+#  See the License for the specific language governing permissions and       #
+#  limitations under the License.                                            #
+##############################################################################
+
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix itsrdf: <http://www.w3.org/2005/11/its/rdf#> .
+@prefix nif: <http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+
+<http://example.com/exampledoc.html#char=0,178>
+	a nif:Context ;
+	a nif:RFC5147String ;
+	nif:beginIndex "0"^^xsd:nonNegativeInteger ;
+	nif:endIndex "178"^^xsd:nonNegativeInteger ;
+	nif:isString "transport or transportation is the movement of people, animals and goods from one location to another. Modes of tranport inc. air, rail, road, water, cable, pipeline, and space. " .
+
+<http://example.com/exampledoc.html#char=0,9>
+	nif:beginIndex "0"^^xsd:nonNegativeInteger ;
+	nif:endIndex "9"^^xsd:nonNegativeInteger ;
+	a nif:RFC5147String ;
+	itsrdf:hasLocQualityIssue [
+		a itsrdf:LocQualityIssue ;
+		itsrdf:locQualityIssueType "typographical" ;
+	];
+	nif:referenceContext <http://example.com/exampledoc.html#char=0,178>.
+
+<http://example.com/exampledoc.html#char=112,125>
+	nif:beginIndex "112"^^xsd:nonNegativeInteger ;
+	nif:endIndex "125"^^xsd:nonNegativeInteger ;
+	a nif:RFC5147String ;
+	itsrdf:hasLocQualityIssue [
+		a itsrdf:LocQualityIssue ;
+		itsrdf:locQualityIssueType "misspelling" ;
+	];
+	nif:referenceContext <http://example.com/exampledoc.html#char=0,178>.
+
+
